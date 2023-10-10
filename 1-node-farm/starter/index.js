@@ -33,6 +33,26 @@ const http = require('http')
 // gives networking capability
 
 
+const replaceTemplate = (temp, product) => {
+    let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
+    
+    output = output.replace(/{%IMAGE%}/g, product.image);
+    output = output.replace(/{%PRICE%}/g, product.price);
+    output = output.replace(/{%FROM%}/g, product.from);
+    output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
+    output = output.replace(/{%QUANTITY%}/g, product.quantity);
+    output = output.replace(/{%DESCRIPTION%}/g, product.description);
+    output = output.replace(/{%ID%}/g, product.id);
+
+    if(!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
+
+    return output;
+}
+
+const tempOverview = fs.readFileSync('./templates/template-overview.html', 'utf-8');
+const tempCard = fs.readFileSync('./templates/template-card.html', 'utf-8');
+const tempProduct = fs.readFileSync('./templates/template-product.html', 'utf-8');
+
 const data = fs.readFileSync('./dev-data/data.json', 'utf-8');
 const dataObj = JSON.parse(data);
 // in this case we declare the variable first by getting the json object, and we then print the data of the object 
@@ -40,13 +60,35 @@ const dataObj = JSON.parse(data);
 
 
 const server = http.createServer((req, res) => {
-
     const pathName = req.url;
+   
+    
 
+
+
+// Overview page
     if(pathName === '/' || pathName === '/overview'){
-        res.end('this is the OVERVIEW')
+        res.writeHead(200, {'Content-type': 'text/html'})
+        
+    const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
+    const output = tempOverview.replace('{%PRODUCT_CARDS%}', cardsHtml);
+        res.end(output);
+
+    //in the res.end, we are outputting the template-overview html file when there is a request to /.
+    //we have the JSON object in dataObj, that contains the text that we need to fill in for our template-card html file
+    
+    // we create a new array by using map, the array will be called cardsHTML
+    // Each time we iterate through the array we are going through the 5 objects in the JSON file, which are the fruits. and we go through the card template html.
+    // every time we iterate through the array, we put those arguments in the replaceTemplate function
+    // the function is going to simply replace the words that we have filled in the p and h1 tags with the JSON object properties
+
+    // after that, we make a variable called output
+    // this is going to contain the overview html file, and replace the word productcards with the cards html code.
+    
     }
 
+
+    //product page
     else if (pathName === '/product'){
         res.end('this is the product')
     }
