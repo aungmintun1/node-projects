@@ -1,4 +1,4 @@
-const fs = require('fs');
+
 
 // const textIn = fs.readFileSync('./txt/input.txt' ,'utf-8'); // puts text in input.txt into a variable
 // console.log(textIn);
@@ -28,9 +28,13 @@ const fs = require('fs');
 //     })
 // })
 // console.log("will read file!")
-
-const http = require('http') 
+const fs = require('fs');
+// file sharing
+const http = require('http');
 // gives networking capability
+
+const url = require('url');
+// The module provides various utilities that allow you to work with URLs, such as parsing them, resolving them, and formatting them.
 
 
 const replaceTemplate = (temp, product) => {
@@ -60,14 +64,14 @@ const dataObj = JSON.parse(data);
 
 
 const server = http.createServer((req, res) => {
-    const pathName = req.url;
-   
     
+    console.log(url.parse(req.url, true))
+    const { query, pathname} = url.parse(req.url, true);
 
 
 
 // Overview page
-    if(pathName === '/' || pathName === '/overview'){
+    if(pathname === '/' || pathname === '/overview'){
         res.writeHead(200, {'Content-type': 'text/html'})
         
     const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('');
@@ -89,11 +93,25 @@ const server = http.createServer((req, res) => {
 
 
     //product page
-    else if (pathName === '/product'){
-        res.end('this is the product')
+    else if (pathname === '/product'){
+        
+
+        res.writeHead (200, {'Content-type': 'text/html'});
+
+        const product = dataObj[query.id];
+        // this will pick the product object from the JSON array.
+        // the query.id will substitute to the array index. if the id is 0 it gets the first element in the array
+
+        const output = replaceTemplate(tempProduct, product);
+        /* we put the html file and the JSON object as arguments into our replace template function 
+           which is then going to replace the variables in our html with JSON DATA*/
+
+        res.end(output);
+
+        
     }
 
-    else if (pathName === '/api'){
+    else if (pathname === '/api'){
 
         res.writeHead(200, {'Content-type': 'application/json'})
         res.end(data);
