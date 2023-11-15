@@ -9,6 +9,8 @@ const app = express();
 app.use(express.json());
 //middleware that is added onto the req object
 
+
+
 app.use((req, res, next) => {
     console.log('Hello from the middleware');
     next();
