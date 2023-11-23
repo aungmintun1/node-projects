@@ -1,6 +1,6 @@
 
-const express=require('express');
-
+const express= require('express');
+const morgan = require('morgan');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
@@ -8,8 +8,7 @@ const app = express();
 
 app.use(express.json());
 //middleware that is added onto the req object
-
-
+app.use(morgan('dev'));
 
 app.use((req, res, next) => {
     console.log('Hello from the middleware');
