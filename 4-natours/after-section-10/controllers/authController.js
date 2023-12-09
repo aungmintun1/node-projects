@@ -76,8 +76,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(
-      new AppError('You are not logged in! Please log in to get access.', 401)
+    return next(new AppError('You are not logged in! Please log in to get access.', 401)
     );
   }
 
@@ -88,10 +87,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
-      new AppError(
-        'The user belonging to this token does no longer exist.',
-        401
-      )
+      new AppError('The user belonging to this token does no longer exist.',401)
     );
   }
 
