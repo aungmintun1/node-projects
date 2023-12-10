@@ -18,4 +18,4 @@ const shirtSchema = new mongoose.Schema ({
 
 const Shirt= mongoose.model('Shirt', shirtSchema);
 
-module.exports = Shirt;s
+module.exports = Shirt;
