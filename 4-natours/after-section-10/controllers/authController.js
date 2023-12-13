@@ -88,7 +88,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (!currentUser) {
     return next(
       new AppError('The user belonging to this token does no longer exist.',401)
-    );
+    );  
   }
 
   // 4) Check if user changed password after the token was issued
@@ -124,15 +124,19 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 
   // 2) Generate the random reset token
+  //creates the resetToken and adds it to the passwordResetToken field along with a expiration field, in our user object
   const resetToken = user.createPasswordResetToken();
+  
+  //saves what we modified in the fields above, we also use this function to deactivate our current validation functions and conditions
   await user.save({ validateBeforeSave: false });
 
-  // 3) Send it to user's email
-  const resetURL = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/users/resetPassword/${resetToken}`;
 
-  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
+
+  // 3) Send it to user's email
+  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.
+  \nIf you didn't forget your password, please ignore this email!`;
 
   try {
     await sendEmail({
@@ -145,11 +149,16 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       status: 'success',
       message: 'Token sent to email!'
     });
+
   } catch (err) {
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
 
+    /* in the case of an error we erase the fields passwordResetToken
+     and its expiration date and then save it in the database
+    */
+   
     return next(
       new AppError('There was an error sending the email. Try again later!'),
       500

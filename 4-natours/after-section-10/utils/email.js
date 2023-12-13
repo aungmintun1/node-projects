@@ -17,7 +17,11 @@ const sendEmail = async options => {
     to: options.email,
     subject: options.subject,
     text: options.message
+
+    //here we are referencing the options as a parameter to the function
     // html:
+    // we can convert the message to html, which we will later do
+    
   };
 
   // 3) Actually send the email
