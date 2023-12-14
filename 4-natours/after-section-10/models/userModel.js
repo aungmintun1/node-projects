@@ -41,6 +41,8 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  // these fields are there when a user is created but not needed to be filled in
+  // they are only filled in for our functions that require tokens and expiration dates 
   active: {
     type: Boolean,
     default: true,
@@ -50,9 +52,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', async function(next) {
   // Only run this function if password was actually modified
+  // if it wasn't modified then go to next middleware
   if (!this.isModified('password')) return next();
 
-  // Hash the password with cost of 12
+  // Hash the password with cost of 12, if password was modified(true)
+
   this.password = await bcrypt.hash(this.password, 12);
 
   // Delete passwordConfirm field
@@ -82,30 +86,32 @@ userSchema.methods.correctPassword = async function(
 
 userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
   if (this.passwordChangedAt) {
-    const changedTimestamp = parseInt(
-      this.passwordChangedAt.getTime() / 1000,
-      10
-    );
+    const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000,10);
+    // changes the passowordChangedAt field to the time format of the JWT timestamp
 
     return JWTTimestamp < changedTimestamp;
+    //if JWTTimestamp is less than the passwordChangedAt field then return true
+    // 7/1 < 7/2
+    //jwt was issued before latest passwordChange. password was changed after jwt was issued
   }
 
   // False means NOT changed
+  // 7/2 < 7/1
+  // jwt was issued after latest passwordChange, password hasn't been changed after jwt was issued
   return false;
 };
 
 userSchema.methods.createPasswordResetToken = function() {
   const resetToken = crypto.randomBytes(32).toString('hex');
   //generates a random buffer of 32 bytes and then converts it into a hexadecimal string
-  
-  this.passwordResetToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+
+  this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
   console.log({ resetToken }, this.passwordResetToken);
+  //prints the original resetToken and the hashedToken side by side
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+  // creates expiration date for the hashed token, adds 10 minutes to current time
 
   return resetToken;
 };

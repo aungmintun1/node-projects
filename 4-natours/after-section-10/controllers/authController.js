@@ -10,6 +10,12 @@ const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
+
+  //takes the user._id as a parameter 
+  // the ._id string in mongo, will be taken as a payload
+  //the payload and secret are combined in order to sign the JWT and create the signiture
+  //we also write an expiration date on the JWT, in our case in 90 days
+
 };
 
 const createSendToken = (user, statusCode, res) => {
@@ -50,11 +56,12 @@ exports.signup = catchAsync(async (req, res, next) => {
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
 
-  // 1) Check if email and password exist
+  // 1) if user left email or password fields empty, result in this error
   if (!email || !password) {
     return next(new AppError('Please provide email and password!', 400));
   }
-  // 2) Check if user exists && password is correct
+  // 2) finds the user in which the email && password match correctly in the database and then stores the user object into user variable here
+  // if the user is not found then result in an error
   const user = await User.findOne({ email }).select('+password');
 
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -67,21 +74,30 @@ exports.login = catchAsync(async (req, res, next) => {
 
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check of it's there
+  //first declare token variable
   let token;
+
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1];
   }
+  //the authorization header will contain Bearer JWT(jwt code)
+  //if there is an authorization header && it starts with Bearer then split it and assign the JWT value to token variable
 
   if (!token) {
     return next(new AppError('You are not logged in! Please log in to get access.', 401)
     );
   }
+  //if theres no JWT then error
 
   // 2) Verification token
+  /*verifys if the JWT was signed with the secret.
+   This is where a test signiture is made in order to compare with the signiture on the JWT.
+  */
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
 
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
@@ -98,7 +114,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  // GRANT ACCESS TO PROTECTED ROUTE
+  // GRANT ACCESS TO PROTECTED ROUTE, getAllTours route
   req.user = currentUser;
   next();
 });
@@ -124,13 +140,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 
   // 2) Generate the random reset token
-  //creates the resetToken and adds it to the passwordResetToken field along with a expiration field, in our user object
+  //creates the resetToken and adds the hashedToken to the passwordResetToken field along with a expiration field, in our user object
   const resetToken = user.createPasswordResetToken();
   
   //saves what we modified in the fields above, we also use this function to deactivate our current validation functions and conditions
   await user.save({ validateBeforeSave: false });
-
-
 
   // 3) Send it to user's email
   const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
@@ -158,7 +172,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     /* in the case of an error we erase the fields passwordResetToken
      and its expiration date and then save it in the database
     */
-   
+
     return next(
       new AppError('There was an error sending the email. Try again later!'),
       500
@@ -168,20 +182,21 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
-  const hashedToken = crypto
-    .createHash('sha256')
-    .update(req.params.token)
-    .digest('hex');
+  const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
   const user = await User.findOne({
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() }
   });
+  // we find the user with a hashed token in our database and the token can not be expired other wise it returns false
 
-  // 2) If token has not expired, and there is user, set the new password
+
+  // 2) if a user is not found then return this error 
   if (!user) {
     return next(new AppError('Token is invalid or has expired', 400));
   }
+
+  // if a user is found then set the following fields to these values
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
   user.passwordResetToken = undefined;
