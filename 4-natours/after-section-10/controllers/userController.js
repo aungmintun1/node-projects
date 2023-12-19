@@ -8,6 +8,14 @@ const filterObj = (obj, ...allowedFields) => {
     if (allowedFields.includes(el)) newObj[el] = obj[el];
   });
   return newObj;
+  //used to take in req.body and filter out potential malcious fields like role:
+  /*
+  takes in req.body, allowedFields is an array containing the field names eg. (req.body, name, email)
+  we make a newObj resembling the fitlered req.body and return it
+  Object.keys:we make a array of the field names in the req.body & forEach:we then iterate through each element via forEach
+  in each iteration we go through a condition, if allowedFields contains the same element in the current element iteration then:
+  make a field name of that element newObj[el] and also assign the value of it obj[el] from obj
+  */
 };
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
