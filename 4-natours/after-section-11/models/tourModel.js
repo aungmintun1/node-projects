@@ -140,15 +140,22 @@ tourSchema.pre('save', function(next) {
   next();
 });
 
-// tourSchema.pre('save', async function(next) {
-//   const guidesPromises = this.guides.map(async id => await User.findById(id));
-//   this.guides = await Promise.all(guidesPromises);
-//   next();
-// });
+/*
+
+ tourSchema.pre('save', async function(next) {
+   const guidesPromises = this.guides.map(async id => await User.findById(id));
+   this.guides = await Promise.all(guidesPromises);
+   next();
+   // this is going to reference the guides objects into our tour objects
+   // we will map out the guides and put them into guidePromises however this stores an array of promises.
+   // Promise.all is going to actually act on those promises
+ });
+
+*/
 
 // tourSchema.pre('save', function(next) {
 //   console.log('Will save document...');
-//   next();
+//   next();s
 // });
 
 // tourSchema.post('save', function(doc, next) {
