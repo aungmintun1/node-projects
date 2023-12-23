@@ -130,8 +130,8 @@ tourSchema.virtual('durationWeeks').get(function() {
 // Virtual populate
 tourSchema.virtual('reviews', {
   ref: 'Review',
-  foreignField: 'tour',
-  localField: '_id'
+  foreignField: 'tour', // the field in review where tour objects are stored
+  localField: '_id' // the field in tour object in DB, where the id value is stored
 });
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
@@ -175,7 +175,7 @@ tourSchema.pre(/^find/, function(next) {
 tourSchema.pre(/^find/, function(next) {
   this.populate({
     path: 'guides',
-    select: '-__v -passwordChangedAt'
+    select: '-__v -passwordChangedAt' //selects only these fields to be shown 
   });
 
   next();
