@@ -36,7 +36,8 @@ const tourSchema = new mongoose.Schema(
       default: 4.5,
       min: [1, 'Rating must be above 1.0'],
       max: [5, 'Rating must be below 5.0'],
-      set: val => Math.round(val * 10) / 10 // 4.666666, 46.6666, 47, 4.7
+      set: val => Math.round(val * 10) / 10 
+      // eg:4.666666, val*10 = 46.6666, round 47, divide by 10 = 4.7
     },
     ratingsQuantity: {
       type: Number,
@@ -131,7 +132,7 @@ tourSchema.virtual('durationWeeks').get(function() {
 tourSchema.virtual('reviews', {
   ref: 'Review',
   foreignField: 'tour', // the field in review where tour objects are stored
-  localField: '_id' // the field in tour object in DB, where the id value is stored
+  localField: '_id' // the field in tour(parent) object in DB, where the id value is stored
 });
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
