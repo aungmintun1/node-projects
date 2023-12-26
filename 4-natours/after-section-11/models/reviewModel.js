@@ -78,18 +78,19 @@ reviewSchema.statics.calcAverageRatings = async function(tourId) {
       ratingsAverage: 4.5
     });
   }
+  //if there are no reviews in the tour we will set quantity to 0 and average to 4.5
 };
 
 reviewSchema.post('save', function() {
-  // this points to current review
+  // this points to current review that is being inputted
   this.constructor.calcAverageRatings(this.tour);
 });
 
-// findByIdAndUpdate
-// findByIdAndDelete
+// for findByIdAndDelete and findByIdAndUpdate
+
 reviewSchema.pre(/^findOneAnd/, async function(next) {
   this.r = await this.findOne();
-  // console.log(this.r);
+  //refers to current query object, and creates the review object within it
   next();
 });
 
