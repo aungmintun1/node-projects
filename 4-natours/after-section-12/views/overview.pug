@@ -43,3 +43,7 @@ block content
               | 
               span.card__footer-text= `rating (${tour.ratingsQuantity})`
             a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Details
+
+
+//- extends is when a html file inherits everything in the file except for the block 
+//- in order to loop over each card we use the each method in pug, this loops over each object in the array producing html in each iteration
