@@ -58,6 +58,7 @@ block content
               - if (guide.role === 'guide')
                 span.overview-box__label Tour guide
               span.overview-box__text= guide.name
+              //- this is a way of using javascript in order to manipulate the html, if the guide.role is lead or if is just guide
 
     .description-box
       h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
