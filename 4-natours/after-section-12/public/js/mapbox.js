@@ -7,6 +7,7 @@ export const displayMap = locations => {
     container: 'map',
     style: 'mapbox://styles/jonasschmedtmann/cjvi9q8jd04mi1cpgmg7ev3dy',
     scrollZoom: false
+    //we also added scrollZoom false, in order to prevent zooming out the map but you can still move around
     // center: [-118.113491, 34.111745],
     // zoom: 10,
     // interactive: false
@@ -15,7 +16,7 @@ export const displayMap = locations => {
   const bounds = new mapboxgl.LngLatBounds();
 
   locations.forEach(loc => {
-    // Create marker
+    // Create marker div and add class marker. anchor bottom in order to hit the bottom of the point
     const el = document.createElement('div');
     el.className = 'marker';
 
@@ -27,7 +28,7 @@ export const displayMap = locations => {
       .setLngLat(loc.coordinates)
       .addTo(map);
 
-    // Add popup
+    // Add popup, displays day and description
     new mapboxgl.Popup({
       offset: 30
     })
