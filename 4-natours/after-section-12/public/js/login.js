@@ -18,6 +18,7 @@ export const login = async (email, password) => {
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);
+      // if the login is successful, we alert a success popup and after 1.5 seconds we load the home page
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
