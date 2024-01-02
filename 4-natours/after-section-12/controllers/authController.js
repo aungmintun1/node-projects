@@ -20,6 +20,7 @@ const createSendToken = (user, statusCode, res) => {
     ),
     httpOnly: true
   };
+  
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   res.cookie('jwt', token, cookieOptions);
@@ -147,6 +148,7 @@ exports.isLoggedIn = async (req, res, next) => {
     }
   }
   next();
+  // we got rid of the catchAsync function so that in the case of an error it just continue to the next function
 };
 
 exports.restrictTo = (...roles) => {
