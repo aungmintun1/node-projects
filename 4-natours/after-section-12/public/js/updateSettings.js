@@ -23,3 +23,12 @@ export const updateSettings = async (data, type) => {
     showAlert('error', err.response.data.message);
   }
 };
+
+/*
+1. user inputs new name and email into userForm
+2. user presses submit, activating the eventListener
+3. through selecting by id, we get the user inputs and put them in a name and email variable.
+4. we put those variables in as parameters in our updateSettings() function
+5. now we will send a patch request to the /updateMe route and it will handle the rest
+
+*/
