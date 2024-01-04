@@ -12,6 +12,8 @@ const factory = require('./handlerFactory');
 //   filename: (req, file, cb) => {
 //     const ext = file.mimetype.split('/')[1];
 //     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//    we first define the destination using our cb function
+//    we then define the filename which we want as user-userId-timestamp, ext is jpeg which we get from the mimetype
 //   }
 // });
 const multerStorage = multer.memoryStorage();
