@@ -26,6 +26,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         amount: tour.price * 100,
         currency: 'usd',
         quantity: 1
+
       }
     ]
   });
@@ -35,6 +36,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     status: 'success',
     session
   });
+
+  //we get the tourid from the button we press when booking 
+  //we specify how we pay, data from the customer, self explanotory
+  //last we describe the item paid for, note that the image has to be from a live website
 });
 
 exports.createBookingCheckout = catchAsync(async (req, res, next) => {

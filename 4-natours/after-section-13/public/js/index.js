@@ -65,4 +65,6 @@ if (bookBtn)
     e.target.textContent = 'Processing...';
     const { tourId } = e.target.dataset;
     bookTour(tourId);
+    // this event listener is for buying a tour
+    // when clicked it redirects to the checkout page through the function in stripe.js
   });

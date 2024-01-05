@@ -20,3 +20,4 @@ export const bookTour = async tourId => {
     showAlert('error', err);
   }
 };
+// this function redirects the uesr to the checkout page and intiates the request through axios
