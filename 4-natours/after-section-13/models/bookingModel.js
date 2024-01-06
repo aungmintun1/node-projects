@@ -22,6 +22,7 @@ const bookingSchema = new mongoose.Schema({
   paid: {
     type: Boolean,
     default: true
+    // default is always true, however we can change it in case client chooses to pay through cash instead of online
   }
 });
 
@@ -31,6 +32,7 @@ bookingSchema.pre(/^find/, function(next) {
     select: 'name'
   });
   next();
+  // we will be populating both the user and tour documents in our model object
 });
 
 const Booking = mongoose.model('Booking', bookingSchema);
