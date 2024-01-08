@@ -1,26 +1,20 @@
 const Shirt = require('./../models/shirtModel');
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError')
 
-exports.getAllShirt =  async (req,res) => {
-    try{
+
+exports.getAllShirt = catchAsync(async(req,res,next) => {
 
        const data = await Shirt.find();
 
         res.status(200).json({
             status: 'success',
             results: {data},
-            
         })
-    }
-    catch(err){
-        res.status(404).json({
-            status: 'error',
-            message: err
-        })
-    }
-}
+    
+});
 
-exports.createShirt =  async (req,res) => {
-    try{
+exports.createShirt =  catchAsync(async (req,res,next) => {
         const newShirt = await Shirt.create(req.body);
 
         // Send a JSON response back to the client
@@ -30,48 +24,34 @@ exports.createShirt =  async (req,res) => {
             shirt: newShirt
           }
         });
-    }
 
-    catch(err){
-        res.status(404).json({
-            status: 'error',
-            message: err
-        })
-    }
-}
+});
 
-exports.deleteShirt = async (req, res) => {
-    
-    try
-    {const doc = await Shirt.findByIdAndDelete(req.params.id);
+exports.deleteShirt = catchAsync(async (req,res,next) => {
+    const doc = await Shirt.findByIdAndDelete(req.params.id);
 
     if (!doc) {
-      console.log("cannot find shirt with ID")
+      return next(new AppError('No shirt found with that ID', 404));
     }
 
     res.status(204).json({
       status: 'success',
       data: null
     });
-}
-catch(err)
-{
-    res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-
-}
-
-  };
+});
 
   
-  exports.updateShirt = async (req, res) => {
-    try{
+  exports.updateShirt = catchAsync(async(req,res,next) => {
+    
     const doc = await Shirt.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true
     });
+
+    if(!doc){
+      console.log('this is !doc')
+      return next(new AppError('No shirt found with that ID', 404));
+    }
 
     res.status(200).json({
       status: 'success',
@@ -79,15 +59,6 @@ catch(err)
         data: doc
       }
     });
-}
 
-catch(err)
-{
-    res.status(404).json({
-        status: 'fail',
-        message: err
-      });
-
-}
-  };
+});
   
