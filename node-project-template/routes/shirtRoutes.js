@@ -5,9 +5,19 @@ const router = express.Router();
 
 router
 .route('/')
-.get(shirtController.getAllShirts)
-.post(shirtController.createShirts)
+.get(shirtController.getAllShirt)
 
+router
+.route('/postShirt')
+.post(shirtController.createShirt)
+
+router
+.route('/deleteShirt/:id')
+.delete(shirtController.deleteShirt)
+
+router
+.route('/updateShirt/:id')
+.patch(shirtController.updateShirt)
 
 
 module.exports = router;

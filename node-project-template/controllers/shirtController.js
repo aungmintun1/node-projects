@@ -1,6 +1,6 @@
 const Shirt = require('./../models/shirtModel');
 
-exports.getAllShirts =  async (req,res) => {
+exports.getAllShirt =  async (req,res) => {
     try{
 
        const data = await Shirt.find();
@@ -11,7 +11,6 @@ exports.getAllShirts =  async (req,res) => {
             
         })
     }
-
     catch(err){
         res.status(404).json({
             status: 'error',
@@ -20,7 +19,7 @@ exports.getAllShirts =  async (req,res) => {
     }
 }
 
-exports.createShirts =  async (req,res) => {
+exports.createShirt =  async (req,res) => {
     try{
         const newShirt = await Shirt.create(req.body);
 
@@ -40,3 +39,55 @@ exports.createShirts =  async (req,res) => {
         })
     }
 }
+
+exports.deleteShirt = async (req, res) => {
+    
+    try
+    {const doc = await Shirt.findByIdAndDelete(req.params.id);
+
+    if (!doc) {
+      console.log("cannot find shirt with ID")
+    }
+
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
+}
+catch(err)
+{
+    res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+
+}
+
+  };
+
+  
+  exports.updateShirt = async (req, res) => {
+    try{
+    const doc = await Shirt.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        data: doc
+      }
+    });
+}
+
+catch(err)
+{
+    res.status(404).json({
+        status: 'fail',
+        message: err
+      });
+
+}
+  };
+  
