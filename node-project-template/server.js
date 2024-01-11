@@ -17,5 +17,7 @@ const port=8000;
 app.listen(port, () => {
     console.log('running on port')
     console.log(port)
+    console.log(process.env.NODE_ENV)
+  
    
 })
