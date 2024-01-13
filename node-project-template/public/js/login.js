@@ -1,12 +1,27 @@
-/* eslint-disable */
-export const login = async (email,password) => {
-    alert(email,password);
+//  eslint-disable 
+export const insert = async (size,price) => {
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: 'http://localhost:8000/shirts/postShirt',
+      data: {
+       size,
+       price
+      }
+    });
+
+  } catch (err) {
+    console.log(err.response.data.message);
+  }
 };
 
+
+
 document.querySelector('.form').addEventListener('submit', e => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    console.log('pressed')
-    login({email, password});
+  e.preventDefault();
+    const size = document.getElementById('size').value;
+    const price = document.getElementById('price').value;
+
+    insert(size,price);
 });
+

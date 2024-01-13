@@ -15,19 +15,23 @@ html
     .login-form
      h2.heading-secondary.ma-bt-lg login to account
       form.form
-      .form__group
-        label.form__label(for='email') Email Address
-        input#email.form__input(type='email', placeholder='medium', required)
-      .form__group.ma-bt-md
-        label.form__label(for='password') password
-        input#password.form__input(type='password', placeholder='$100', required)
-      .form__group
+       .form__group
+        label.form__label(for='size') size
+        input#size.form__input(type='text', placeholder='medium', required)
+       .form__group.ma-bt-md
+        label.form__label(for='price') price
+        input#price.form__input(type='number', placeholder='100', required)
+       .form__group
         button.btn.btn--green login
+
+  
    div.container
     each shirt in shirts   
      div.box
       p Shirt price: #{shirt.price}
       p Shirt size: #{shirt.size}
-   script(src='/js/login.js')
+
+   script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js')
+   script(type='module' src='/js/login.js')
 
   
