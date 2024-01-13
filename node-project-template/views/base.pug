@@ -1,3 +1,33 @@
-h1 hello welcome to shirts 
+doctype html
+html
+  head
+    block head
+      meta(charset='UTF-8')
+      meta(name='viewport' content='width=device-width, initial-scale=1.0')
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+      link(rel='stylesheet' href='/css/style.css')
+      title aung  | #{title}
+  
+  body
+   h1 hello welcome to shirts 
+   h1 #{title}
+   section
+    .login-form
+     h2.heading-secondary.ma-bt-lg login to account
+      form.form
+      .form__group
+        label.form__label(for='email') Email Address
+        input#email.form__input(type='email', placeholder='medium', required)
+      .form__group.ma-bt-md
+        label.form__label(for='password') password
+        input#password.form__input(type='password', placeholder='$100', required)
+      .form__group
+        button.btn.btn--green login
+   div.container
+    each shirt in shirts   
+     div.box
+      p Shirt price: #{shirt.price}
+      p Shirt size: #{shirt.size}
+   script(src='/js/login.js')
 
- 
+  
