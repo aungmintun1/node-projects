@@ -1,12 +1,12 @@
 //  eslint-disable 
-export const insert = async (size,price) => {
+export const login = async (email,password) => {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://localhost:8000/shirts/postShirt',
+      url: 'http://localhost:8000/users/login',
       data: {
-       size,
-       price
+       email,
+       password
       }
     });
 
@@ -19,9 +19,9 @@ export const insert = async (size,price) => {
 
 document.querySelector('.form').addEventListener('submit', e => {
   e.preventDefault();
-    const size = document.getElementById('size').value;
-    const price = document.getElementById('price').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-    insert(size,price);
+    login(email,password);
 });
 

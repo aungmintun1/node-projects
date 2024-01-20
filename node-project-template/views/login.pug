@@ -10,24 +10,18 @@ html
   
   body
    .login-form
-    h2 sign up
+    h2 login
     form.form
-     .form__group
-      label.form__label(for='name') name
-      input#name.form__input(type='text', placeholder='john', required)
      .form__group.ma-bt-md
       label.form__label(for='email') email
       input#email.form__input(type='email', placeholder='john@gmail.com', required)
-      .form__group
+     .form__group
       label.form__label(for='password') password
       input#password.form__input(type='password', placeholder='••••••••', required)
-      .form__group
-      label.form__label(for='passwordConfirm') confirm password
-      input#passwordConfirm.form__input(type='password', placeholder='••••••••', required)
      .form__group
       button.btn.btn--green submit
       
       script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js') 
-      script(type='module' src='/js/signup.js')
+      script(type='module' src='/js/login.js')
      
    
