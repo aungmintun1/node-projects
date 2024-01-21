@@ -36,12 +36,16 @@ const userSchema = new mongoose.Schema ({
         }
       },
 
-      shirts: [
-        {
+      cart:[{
+        shirt:{
           type: mongoose.Schema.ObjectId,
           ref: 'Shirt'
+        },
+        quantity:{
+          type: Number,
+          default: 1
         }
-      ],
+      }],
 
       passwordChangedAt: Date,
       passwordResetToken: String,

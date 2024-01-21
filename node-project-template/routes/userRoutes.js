@@ -14,5 +14,8 @@ router.route('/updatePassword').patch(authController.protect,authController.upda
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
+router.patch('/addCart', authController.isLoggedIn, userController.addCart)
+
+router.delete('/removeItem', authController.protect, userController.removeItem)
 
 module.exports = router;

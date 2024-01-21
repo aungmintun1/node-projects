@@ -26,6 +26,8 @@ const createSendToken = (user, statusCode, req, res) => {
   // Remove password from output
   user.password = undefined;
 
+  console.log(user);
+
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -40,12 +42,13 @@ exports.signup = catchAsync(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
+    passwordConfirm: req.body.passwordConfirm,
+    cart: req.body.cart
   });
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  // console.log(url);
-  await new Email(newUser, url).sendWelcome();
+  // const url = `${req.protocol}://${req.get('host')}/me`;
+  // // console.log(url);
+  // await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, req, res);
 });
@@ -63,7 +66,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
   }
-
+  
   // 3) If everything ok, send token to client
   createSendToken(user, 200, req, res);
 });
@@ -122,6 +125,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // Only for rendered pages, no errors!
+// this is after a user logs in, it checks to see if a user is logged in
+// if the user is logged in, it will display user data 
 exports.isLoggedIn = async (req, res, next) => {
   if (req.cookies.jwt) {
     try {
@@ -143,6 +148,7 @@ exports.isLoggedIn = async (req, res, next) => {
       }
 
       // THERE IS A LOGGED IN USER
+      req.user = currentUser;
       res.locals.user = currentUser;
       return next();
     } catch (err) {
@@ -178,9 +184,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // 3) Send it to user's email
   try {
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `${req.protocol}://${req.get('host')}/users/resetPassword/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -227,10 +231,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  // 1) Get user from collection
+  // 1) Get user from collection, .select outputs the password 
   const user = await User.findById(req.user.id).select('+password');
 
-  // 2) Check if POSTed current password is correct
+  // 2) Check if password inputted from req.body matches the password in database
   if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
     return next(new AppError('Your current password is wrong.', 401));
   }
@@ -238,6 +242,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // 3) If so, update password
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
+  //pre save middleware encrypts new password and sets a passwordChangedAt field
   await user.save();
   // User.findByIdAndUpdate will NOT work as intended!
 
