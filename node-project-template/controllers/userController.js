@@ -83,8 +83,12 @@ exports.getUser = catchAsync(async (req, res, next) => {
 });
 
 exports.addCart = catchAsync(async(req,res,next) => {
+
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(new AppError('This route is not for password updates. Please use /updateMyPassword.',400));
+  }
+
   const user = req.user;
-  
   const filteredBody = filterObj(req.body,'cart');
   const shirtId = filteredBody.cart[0].shirt;
   //we only want the cart field to be in req.body, nothing else. then we put the object in shirt id
@@ -114,21 +118,28 @@ exports.addCart = catchAsync(async(req,res,next) => {
 });
   
 exports.removeItem = catchAsync(async(req,res,next) => {
-
+  const user = req.user;
   const filteredBody = filterObj(req.body,'cart');
+  const shirtId = filteredBody.cart[0].shirt;
 
-  const userCart = await User.findByIdAndUpdate(req.user.id,{
-    $pull: { cart: filteredBody.cart }
-  },
-  {
-    new: true,
-    runValidators: true,
-  });
+  const cartItem = user.cart.find(item => item.shirt.equals(shirtId));
+  //iterates through each whole shirt object in the cart array
+  //if one of the objects whose shirt field equals the id then it returns that item
+
+  if (cartItem.quantity>=2) {
+    cartItem.quantity -= 1;
+  } else {
+    user.cart.pull({ shirt: shirtId });
+  }
+
+  // Save the updated user document
+  await user.save({ validateBeforeSave: false });
+
 
   res.status(201).json({
     status: 'success',
     data: {
-      cart: userCart
+      user
     }
   });
 

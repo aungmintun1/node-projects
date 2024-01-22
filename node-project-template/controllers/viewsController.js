@@ -1,16 +1,55 @@
-// const Shirt = require('./../models/shirtModel');
-// const catchAsync = require('./../utils/catchAsync');
-// const AppError = require('./../utils/appError')
+const Shirt = require('./../models/shirtModel');
+const User = require('./../models/userModel');
+const catchAsync = require('./../utils/catchAsync');
+const AppError = require('./../utils/appError')
 
-// exports.getOverview = catchAsync(async (req, res, next) => {
-//     // 1) Get tour data from collection
-//     const shirts = await Shirt.find();
+exports.getShirt = catchAsync(async (req, res, next) => {
+    const shirts = await Shirt.find();
+    const user = await User.findById(req.user.id);
   
-//     // 2) Build template
-//     // 3) Render that template using tour data from 1)
-//     res.status(200).render('overview', {
-//       title: 'All Tours',
-//       shirts
-//     });
-//   });
+    res.status(200).render('base', {
+      shirts,
+      user
+    });
+  });
   
+  exports.updateShirt = catchAsync(async (req, res, next) => {
+    const shirt = await Shirt.findById(req.params.id);
+  
+    res.status(200).render('update', {
+      shirt
+    });
+  });
+
+  exports.signup = catchAsync(async (req, res, next) => {
+
+    res.status(200).render('signup', {
+    status: "success"
+    });
+  });
+
+
+  exports.login = catchAsync(async (req, res, next) => {
+
+    res.status(200).render('login', {
+    status: "success"
+    });
+  });
+
+  exports.cart = catchAsync(async (req, res, next) => {
+    
+    //find user through id in URL and then populate shirts field
+    const cart = await User.findById(req.params.id).populate({
+      path: 'shirts',
+    });
+
+    //error if user is not found
+    if (!cart) {
+      return next(new AppError('There is no user with that name.', 404));
+    }
+  
+    res.status(200).render('cart', {
+      cart
+    });
+    
+  });
