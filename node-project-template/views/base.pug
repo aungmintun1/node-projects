@@ -6,32 +6,29 @@ html
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
       link(rel='stylesheet' href='/css/style.css')
-      title aung  | #{title}
+      title T-Shirt Store
   
-  body
-   h1 hello welcome to shirts 
-   h1 #{title}
-   section
-    .login-form
-     h2.heading-secondary.ma-bt-lg login to account
-      form.form
-       .form__group
-        label.form__label(for='size') size
-        input#size.form__input(type='text', placeholder='medium', required)
-       .form__group.ma-bt-md
-        label.form__label(for='price') price
-        input#price.form__input(type='number', placeholder='100', required)
-       .form__group
-        button.btn.btn--green login
-
+  body.userId(data-user-id=user.id)
+   h1 T-Shirt Store
+   h2 logged in as: #{user.name}
   
-   div.container
+   div.cart_container
     each shirt in shirts   
      div.box
       p Shirt price: #{shirt.price}
       p Shirt size: #{shirt.size}
+      button.add_btn(data-shirt-id=shirt.id , data-quantity=1) add to cart
+      div.dropdown
+       button#dropbtn.dropbtn Quantity: 1
+        
+      
+
+     
 
    script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js')
-   script(type='module' src='/js/login.js')
+   script(type='module' src='/js/addCart.js')
+   script(type='module' src='/js/dropDown.js')
+     
+  
 
   
