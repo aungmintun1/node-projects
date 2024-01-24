@@ -16,12 +16,21 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.getAllUsers = catchAsync(async(req,res,next) => {
 
-    const data = await User.find();
+    const users = await User.find();
+
+     // Map each user to a promise that resolves to the user with totalQuantity added
+  const usersWithTotalQuantityPromises = users.map(async (user) => {
+    const totalQuantity = await user.getTotalQuantity();
+    return { ...user.toObject(), totalQuantity };
+  });
+
+  // Await all the promises to resolve
+  const usersWithTotalQuantity = await Promise.all(usersWithTotalQuantityPromises);
 
      res.status(200).json({
          status: 'success',
-         results: {data},
-     })
+         results: usersWithTotalQuantity,
+     });
  
 });
 
@@ -83,26 +92,26 @@ exports.getUser = catchAsync(async (req, res, next) => {
 });
 
 exports.addCart = catchAsync(async(req,res,next) => {
+  const user = req.user;
 
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError('This route is not for password updates. Please use /updateMyPassword.',400));
   }
 
-  const user = req.user;
-  const filteredBody = filterObj(req.body,'cart');
-  const shirtId = filteredBody.cart[0].shirt;
-  //we only want the cart field to be in req.body, nothing else. then we put the object in shirt id
+  const shirtId = req.body.shirt
+  const quantity = req.body.quantity
  
-  const cartItem = user.cart.find(item => item.shirt.equals(shirtId));
+  const cartItem = user.cart.find(item => item && item.shirt && item.shirt.equals(shirtId));
+
   //iterates through each whole shirt object in the cart array
   //if one of the objects whose shirt field equals the id then it returns true and that item
 
   if (cartItem) {
-    // If the shirt is already in the cart, increment the quantity
-    cartItem.quantity += 1;
+    // If the shirt is already in the cart, increment the quantity that was inputted
+    cartItem.quantity += quantity;
   } else {
-    // If the shirt is not in the cart, add it with a quantity of 1
-    user.cart.push({ shirt: shirtId, quantity: 1 });
+    // If the shirt is not in the cart, add the shirt along with the inputted quantity
+    user.cart.push({ shirt: shirtId, quantity: quantity });
   }
 
   // Save the updated user document
@@ -117,31 +126,47 @@ exports.addCart = catchAsync(async(req,res,next) => {
 
 });
   
-exports.removeItem = catchAsync(async(req,res,next) => {
+
+exports.deleteItem = catchAsync(async(req,res,next) => {
   const user = req.user;
-  const filteredBody = filterObj(req.body,'cart');
-  const shirtId = filteredBody.cart[0].shirt;
+  const shirtId = req.body.shirt;
 
-  const cartItem = user.cart.find(item => item.shirt.equals(shirtId));
-  //iterates through each whole shirt object in the cart array
-  //if one of the objects whose shirt field equals the id then it returns that item
-
-  if (cartItem.quantity>=2) {
-    cartItem.quantity -= 1;
-  } else {
-    user.cart.pull({ shirt: shirtId });
-  }
-
-  // Save the updated user document
-  await user.save({ validateBeforeSave: false });
-
+  const updatedUser = await User.findByIdAndUpdate(user.id, {
+    $pull: { cart: { shirt: shirtId } } // This will remove all items with this shirtId
+  }, {
+    new: true,
+    runValidators: true
+  });
 
   res.status(201).json({
     status: 'success',
     data: {
-      user
+      updatedUser
     }
   });
 
 });
-  
+
+exports.addItems = catchAsync(async(req,res,next) => {
+  const user = req.user;
+  const shirtId = req.body.shirt;
+  const numItems = req.body.quantity;
+
+  const updatedUser = await User.findByIdAndUpdate(user.id, {
+    $push:  { cart: { shirt: shirtId, quantity: numItems }} 
+  },
+  {
+    new: true,
+    runValidators: true
+  });
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      updatedUser
+    }
+  });
+
+});
+
+
