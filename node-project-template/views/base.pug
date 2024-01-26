@@ -8,10 +8,20 @@ html
       link(rel='stylesheet' href='/css/style.css')
       title T-Shirt Store
   
-  body.userId(data-user-id=user.id)
+  body
+   header.header
+    nav
+     ul
+      li
+        a(href="#home") profile
+      li
+        a(href=`/cart/${user.id}`) cart
+      li
+        a(href="#contact") login
+
    h1 T-Shirt Store
    h2 logged in as: #{user.name}
-  
+
    div.cart_container
     each shirt in shirts   
      div.box
@@ -21,10 +31,6 @@ html
       div.dropdown
        button#dropbtn.dropbtn Quantity: 1
         
-      
-
-     
-
    script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js')
    script(type='module' src='/js/addCart.js')
    script(type='module' src='/js/dropDown.js')
