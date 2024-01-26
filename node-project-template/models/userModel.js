@@ -119,12 +119,15 @@ userSchema.methods.createPasswordResetToken = function() {
 
 userSchema.methods.getTotalQuantity = async function() {
   try {
+
     const result = await this.model('User').aggregate([
       { $match: { _id: this._id } },
       { $unwind: "$cart" },
       { $group: { _id: null, totalQuantity: { $sum: "$cart.quantity" } } }
     ]);
+
     return result.length > 0 ? result[0].totalQuantity : 0;
+    
   } catch (err) {
     throw err; // This error will need to be caught by the caller of the function
   }
