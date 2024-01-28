@@ -12,16 +12,22 @@ thread: {
     // required: [true, 'comment must belong to a thread.']
   },
 
-replyList: [{
+repliedTo: {
+  type: mongoose.Schema.ObjectId,
+    ref: 'Comment'
+}
 
-    reply: {
-      type: mongoose.Schema.ObjectId,
-        ref: 'Comment'
-    }
-
-}]
-
+},
+{
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 })
+
+commentSchema.virtual('replies', {
+  ref: 'Comment',
+  foreignField: 'repliedTo',
+  localField: '_id'
+});
 
 
 const Comment = mongoose.model('Comment', commentSchema);

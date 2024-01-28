@@ -24,9 +24,6 @@ exports.createThread =  catchAsync(async (req,res,next) => {
 exports.getThread = catchAsync(async (req, res, next) => {
     let doc = await Thread.findById(req.params.id).populate({path:'comments'})
     
-    // .populate({
-    //   path:'cart.shirt'
-    // })
     res.status(200).json({
       status: 'success',
       data: {
