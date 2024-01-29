@@ -1,0 +1,52 @@
+
+.header{
+    padding: 2rem;
+    background-color: gray;
+  }
+  
+  header nav ul{
+    list-style: none;
+    color: white;
+    display: flex;
+    justify-content: end;
+    gap:3rem;
+  }
+  
+  nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5rem;
+  }
+
+  h1,h2,h3,h4{
+    text-align: center;
+  }
+
+.comment{
+    display: flex;
+    justify-content: center;
+   }
+    .comment_container{
+      border: solid black 2px;
+      width: 75%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .box{
+      border: solid lightblue 2px;
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+    }
+    
+    .reply {
+      
+        margin-left: 10px;
+        border: solid lightblue 2px;
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
+    

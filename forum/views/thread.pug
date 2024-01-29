@@ -1,0 +1,53 @@
+mixin Comment(object)
+ .box
+  h2= object.text
+
+  if object.replies
+   .reply
+    each reply in object.replies
+     +Comment(reply)
+  else 
+   .replyList
+
+
+doctype html
+html
+  head
+    block head
+      meta(charset='UTF-8')
+      meta(name='viewport' content='width=device-width, initial-scale=1.0')
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+      link(rel='stylesheet' href='/css/thread.css')
+      title Thread
+   
+  body
+   
+
+   header.header
+    nav
+     ul
+      li
+        a(href="#home") profile
+      li
+        a(href=`/cart`) home
+      li
+        a(href="#contact") login
+
+   h1= thread.question 
+
+   section.comment 
+    div.comment_container
+    
+     each comment in comments 
+      if !comment.repliedTo
+       +Comment(comment)
+
+    //- div.comment_container
+    //-  each comment in comments  
+    //-   div.box
+    //-    h2= comment.text
+    //-     each reply in comment.replies  
+    //-      div.reply
+    //-       h4= reply.text
+           
+           

@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    block head
+      meta(charset='UTF-8')
+      meta(name='viewport' content='width=device-width, initial-scale=1.0')
+      link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+      link(rel='stylesheet' href='/css/style.css')
+      title Thread
+  
+  body
+   header.header
+    nav
+     ul
+      li
+        a(href="#home") profile
+      li
+        a(href=`/cart`) home
+      li
+        a(href="#contact") login
+
+   h1 threads 
+
+   div.container
+    each thread in threads 
+     h2= thread.question
+  
+
+//-    div.cart_container
+//-     each shirt in shirts   
+//-      div.box
+//-       p Shirt price: #{shirt.price}
+//-       p Shirt size: #{shirt.size}
+//-       button.add_btn(data-shirt-id=shirt.id , data-quantity=1) add to cart
+//-       div.dropdown
+//-        button#dropbtn.dropbtn Quantity: 1
+     
