@@ -56,3 +56,13 @@ exports.getShirt = catchAsync(async (req, res, next) => {
     });
     
   });
+
+  exports.getOneShirt = catchAsync(async (req, res, next) => {
+    const shirt = await Shirt.findById(req.params.id);
+    const user = await User.findById(req.user.id);
+  
+    res.status(200).render('shirt', {
+      shirt,
+      user
+    });
+  });
