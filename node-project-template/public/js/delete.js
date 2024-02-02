@@ -1,11 +1,13 @@
 /* eslint-disable */
 
-export const deleteShirt = async (id) => {
+import axios from 'axios';
+export const deleteItem= async (shirt) => {
     try {
       const res = await axios({
         method: 'DELETE',
-        url: `http://localhost:8000/shirts/deleteShirt/${id}`,
+        url: `http://localhost:8000/users/deleteItem`,
         data: {
+          shirt
         }
       });
   
@@ -14,11 +16,4 @@ export const deleteShirt = async (id) => {
     }
   };
   
-  document.querySelector('.delete').addEventListener('click', e => {
-    e.preventDefault();
-      
-      const id = shirtId;
-      deleteShirt(id)
-    
-  });
-  
+

@@ -11,7 +11,7 @@ html
   body
    .login-form
      h2#id.heading-secondary.ma-bt-lg #{shirt.id}
-      form.form
+      form.form(data-shirt-id=shirt.id)
        .form__group
         label.form__label(for='size') current size: #{shirt.size}
         input#size.form__input(type='text', placeholder='medium', required)
@@ -20,10 +20,9 @@ html
         input#price.form__input(type='number', placeholder='100', required)
        .form__group
         button.btn.btn--green update
-        button.delete delete
+      button.delete delete 
 
-      script.
-       const shirtId = "#{shirt.id}";
+
       script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js') 
       script(type='module' src='/js/update.js')
       script(type='module' src='/js/delete.js')
