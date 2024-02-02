@@ -1,12 +1,4 @@
-.box{
-/* width: 2rem;
-height: 2rem; */
-border: solid black 2px;
-display: flex;
-flex-direction: column;
-align-items: center;
 
-}
 
 .container{
 display: flex;
@@ -17,14 +9,6 @@ flex-wrap: wrap;
 h2{
   margin: 0;
   text-align: center;
-}
-.cart_container{
-  display: flex;
-  flex-direction: column;
-  border: solid pink 5px;
-  flex-wrap: wrap;
-  width:300px;
-
 }
 
 .login-form {
@@ -87,16 +71,6 @@ h2{
     border-radius: 10px;
   }
 
-  .add_btn{
-    padding: .5rem 2rem;
-    border-radius: 10px;
-    background-color: #5e55c5;
-    color: white;
-    text-decoration: none;
-    margin-bottom: .5rem;
-
-  }
-
   /* CSS styles */
 .dropdown {
   position: relative;
@@ -141,21 +115,4 @@ h2{
   background-color: #f1f1f1;
 }
 
-.header{
-  padding: 2rem;
-  background-color: gray;
-}
 
-header nav ul{
-  list-style: none;
-  color: white;
-  display: flex;
-  justify-content: end;
-  gap:3rem;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-}
