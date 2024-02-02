@@ -19,7 +19,13 @@ button.parentNode.appendChild(dropdownContent);
 
       const Itembox = this.closest('.box');
       const addToCartButton = Itembox.querySelector('.add_btn');
+      const editButton = Itembox.querySelector('.edit_btn');
+
+      if(addToCartButton)
       addToCartButton.setAttribute('data-quantity', this.textContent);
+
+      if(editButton)
+      editButton.setAttribute('data-quantity', this.textContent);
 
       button.textContent = `Quantity: ${this.textContent}`;
       dropdownContent.style.display = 'none';

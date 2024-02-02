@@ -34,7 +34,7 @@ exports.getAllUsers = catchAsync(async(req,res,next) => {
  
 });
 
-exports.createUser =  catchAsync(async (req,res,next) => {
+exports.createUser = catchAsync(async (req,res,next) => {
      const newUser = await User.create(req.body);
 
     //  const url = `${req.protocol}://${req.get('host')}/getUser`;
@@ -93,7 +93,8 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
 exports.addCart = catchAsync(async(req,res,next) => {
   const user = req.user;
-
+  console.log(user);
+  
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError('This route is not for password updates. Please use /updateMyPassword.',400));
   }
@@ -146,6 +147,31 @@ exports.deleteItem = catchAsync(async(req,res,next) => {
   });
 
 });
+
+exports.edit = catchAsync(async(req,res,next) => {
+  const user = req.user;
+
+  const shirtId = req.body.shirt
+  const quantity = req.body.quantity
+ 
+  const cartItem = user.cart.find(item => item && item.shirt && item.shirt.equals(shirtId));
+
+  if (cartItem)
+    cartItem.quantity = quantity;
+  
+  await user.save({ validateBeforeSave: false });
+
+  res.status(201).json({
+    status: 'success',
+    data: {
+      user
+    }
+  });
+
+});
+
+
+
 
 exports.addItems = catchAsync(async(req,res,next) => {
   const user = req.user;
