@@ -19,6 +19,11 @@ const shirtSchema = new mongoose.Schema ({
             required: [true, 'A shirt must have a price']
         },
 
+        photo: {
+          type: String,
+          default: "default.jpg"
+        }
+
 })
 
 const Shirt= mongoose.model('Shirt', shirtSchema);

@@ -1,7 +1,10 @@
 const express = require('express');
 const shirtController = require('./../controllers/shirtController');
-const router = express.Router();
 
+
+
+
+const router = express.Router();
 
 router
 .route('/')
@@ -15,9 +18,6 @@ router
 .route('/deleteShirt/:id')
 .delete(shirtController.deleteShirt)
 
-router
-.route('/updateShirt/:id')
-.patch(shirtController.updateShirt)
-
+router.patch('/updateShirt/:id', shirtController.uploadShirtPhoto,shirtController.resizeUserPhoto,shirtController.updateShirt)
 
 module.exports = router;
