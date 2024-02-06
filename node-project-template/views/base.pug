@@ -6,9 +6,10 @@ html
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
       link(rel='stylesheet' href='/css/base.css')
-      link(rel='stylesheet' href='/css/style.css')
+      link(rel='stylesheet' href='/css/login.css')
       link(rel='stylesheet' href='/css/header.css')
-     
+      link(rel='stylesheet' href='/css/dropdown.css')
+      link(rel='stylesheet' href='/css/shop.css')
       title T-Shirt Store
   
   body
@@ -20,19 +21,21 @@ html
       li
         a(href=`/cart/${user.id}`) cart
       li
-        a(href="#contact") login
+        a(href='/login') login
 
    block content
     h1 T-Shirt Store
     h2 logged in as: #{user.name}
+    
+    section.shop
+     div.cart_container
+      each shirt in shirts   
+       div.box
+        a(href=`/shirt/${shirt.id}`) 
+         img.imgScale(src=`/img/shirts/blueShirt.webp` alt='photo of shirt')
+         p #{shirt.name}
+         p from $#{shirt.price}
  
-    div.cart_container
-     each shirt in shirts   
-      div.box
-       a(href=`/shirt/${shirt.id}`) 
-        p Shirt price: #{shirt.name}
-        p Shirt size: #{shirt.price}
-
 
       //-  button.add_btn(data-shirt-id=shirt.id , data-quantity=1) add to cart
       //-  div.dropdown

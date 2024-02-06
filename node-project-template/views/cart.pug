@@ -4,6 +4,7 @@ block content
  h1 Checkout 
  h1 logged in as: #{user.name}
  h2 total quantity: #{user.totalQuantity}
+ h2 subtotal: $ #{user.totalPrice}
  section
    div.cart_container
     each item in user.cart
@@ -16,3 +17,5 @@ block content
       button.edit_btn(data-shirt-id=item.shirt._id, data-quantity=item.quantity) edit
       div.dropdown
        button#dropbtn.dropbtn Quantity: #{item.quantity}
+
+       
