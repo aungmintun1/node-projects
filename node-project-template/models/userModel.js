@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema ({
       },
 
       cart:[{
+        
         shirt:{
           type: mongoose.Schema.ObjectId,
           ref: 'Shirt'
@@ -44,7 +45,12 @@ const userSchema = new mongoose.Schema ({
         quantity:{
           type: Number,
           default: 1
+        },
+
+        size:{
+          type: String
         }
+
       }],
 
       passwordChangedAt: Date,
@@ -132,6 +138,34 @@ userSchema.methods.getTotalQuantity = async function() {
     throw err; // This error will need to be caught by the caller of the function
   }
 };
+
+userSchema.methods.getTotalPrice = async function() {
+  try {
+    const result = await this.model('User').aggregate([
+      { $match: { _id: this._id } },
+      { $unwind: "$cart" },
+      { $lookup: {
+          from: "shirts", // Replace "shirts" with the actual name of your collection
+          localField: "cart.shirt", //field in cart that stores the id
+          foreignField: "_id", //field in shirt that stores id
+          as: "cart.shirtDetails" //rename the array that stores the shirt objects
+      }},
+      { $unwind: "$cart.shirtDetails" },
+      { $addFields: {"cart.shirtDetails.price": {$toDecimal: "$cart.shirtDetails.price"} } },
+      { $group: {_id: null, totalPrice: {$sum: {$multiply: [ "$cart.shirtDetails.price", "$cart.quantity" ]}}}},
+   
+    ]);
+    const totalPrice = result.length > 0 ? result[0].totalPrice.toString() : '0';
+
+    return totalPrice; 
+  } catch (err) {
+    throw err; // This error will need to be caught by the caller of the function
+  }
+};
+
+
+
+
 
 
 

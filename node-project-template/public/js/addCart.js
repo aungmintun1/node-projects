@@ -1,14 +1,15 @@
 //  eslint-disable 
 
 import axios from 'axios';
-export const addCart = async (shirt,quantity) => {
+export const addCart = async (shirt,quantity,size) => {
     try {
       const res = await axios({
         method: 'PATCH',
         url: `http://localhost:8000/users/addCart`,
         data: {
           shirt,
-          quantity
+          quantity,
+          size
         },
        
       });

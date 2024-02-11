@@ -1,10 +1,16 @@
 extends base 
 
 block content
- .box
-  h1= shirt.name
-  h1= shirt.price
- 
-  button.add_btn(data-shirt-id=shirt.id , data-quantity=1) add to cart
-  div.dropdown
-   button#dropbtn.dropbtn Quantity: 1
+ section.shirtSection
+  .shirtImage
+  .shirtBox
+   h1= shirt.name
+   h1= `$${shirt.price}`
+   button.add_btn(data-shirt-id=shirt.id , data-quantity=1, data-size='small') add to cart
+   div.btnContainer
+    div.size-dropdown 
+     button.sizeBtn size: small
+    div.dropdown
+     button#dropbtn.dropbtn Quantity: 1
+    
+    
