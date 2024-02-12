@@ -2,15 +2,18 @@ extends base
 
 block content
  section.shirtSection
-  .shirtImage
+  img.shirtImage(src=`/img/shirts/${shirt.photo}` alt='photo of shirt')
+  
   .shirtBox
    h1= shirt.name
    h1= `$${shirt.price}`
-   button.add_btn(data-shirt-id=shirt.id , data-quantity=1, data-size='small') add to cart
+   button.add_btn(data-shirt-id=shirt.id , data-quantity=1, data-size='small')
+    span add to cart
    div.btnContainer
     div.size-dropdown 
      button.sizeBtn size: small
     div.dropdown
      button#dropbtn.dropbtn Quantity: 1
+ script(src='/js/sizeBtn.js')
     
     

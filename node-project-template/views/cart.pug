@@ -1,21 +1,28 @@
 extends base
 
 block content 
- h1 Checkout 
- h1 logged in as: #{user.name}
- h2 total quantity: #{user.totalQuantity}
- h2 subtotal: $ #{user.totalPrice}
- section
-   div.cart_container
+ h2 logged in as: #{user.name}
+
+ section.checkout_section
+  .cart
+   .checkoutTitle 
+    h1 Shopping Cart
+    h2 price
+   div.checkout_container
     each item in user.cart
-     div.box
-      p shirt name : #{item.shirt.name}
-      p Shirt price: #{item.shirt.price}
-      p quantity: #{item.quantity} 
-      button.delete(data-shirt-id=item.shirt._id) remove item
-
-      button.edit_btn(data-shirt-id=item.shirt._id, data-quantity=item.quantity) edit
-      div.dropdown
-       button#dropbtn.dropbtn Quantity: #{item.quantity}
-
-       
+     div.checkoutBox
+      img.cartImage(src=`/img/shirts/blueShirt.webp` alt='photo of shirt')
+      .detailContainer
+       h2 shirt name : #{item.shirt.name}
+       p Shirt size: #{item.size}
+       .cart_btn_container
+        div.dropdown
+         button#dropbtn.dropbtn Quantity: #{item.quantity}
+        button.edit_btn(data-shirt-id=item.shirt._id, data-quantity=item.quantity) edit
+        button.delete(data-shirt-id=item.shirt._id) delete
+      .priceContainer  
+       h2 $#{item.shirt.price}
+  .payContainer     
+   p SubTotal (#{user.totalQuantity} items): $#{user.totalPrice}
+   button.checkoutBtn proceed to checkout
+        

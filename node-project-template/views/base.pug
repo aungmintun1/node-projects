@@ -8,8 +8,10 @@ html
       link(rel='stylesheet' href='/css/base.css')
       link(rel='stylesheet' href='/css/login.css')
       link(rel='stylesheet' href='/css/header.css')
-      link(rel='stylesheet' href='/css/dropdown.css')
+      link(rel='stylesheet' href='/css/button.css')
       link(rel='stylesheet' href='/css/shop.css')
+      link(rel='stylesheet' href='/css/shirt.css')
+      link(rel='stylesheet' href='/css/cart.css')
       title T-Shirt Store
   
   body
@@ -32,7 +34,7 @@ html
       each shirt in shirts   
        div.box
         a(href=`/shirt/${shirt.id}`) 
-         img.imgScale(src=`/img/shirts/blueShirt.webp` alt='photo of shirt')
+         img.imgScale(src=`/img/shirts/${shirt.photo}` alt='photo of shirt')
          p #{shirt.name}
          p from $#{shirt.price}
  
@@ -44,6 +46,7 @@ html
 
    script(src='/js/bundle.js')
    script(src='/js/dropDown.js')
+   
      
   
 

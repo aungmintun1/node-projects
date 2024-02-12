@@ -1,0 +1,80 @@
+.checkout_section{
+   background-color: #f3f4f4;
+   display: flex;
+   align-items: center;
+   margin-top: 2rem;
+}
+.checkoutTitle {
+    margin-left: 2rem;
+    margin-bottom: .25rem;
+    display: flex;
+    justify-content: space-between;
+    width:95%;
+}
+
+.cart{
+    height:100%;
+    flex:0 0 75%;
+    
+}
+
+.checkout_container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap:1rem;
+    overflow: visible;
+   
+}
+.checkoutBox{
+    background-color: white;
+    margin-left:2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border-top: solid black 2px;
+    border-bottom: solid black 2px; */
+    border:solid black 2px;
+    width:95%;
+    height:16rem;
+    gap:2rem;
+}
+
+.cartImage {
+    width: 14rem;
+    height: 12rem;
+}
+   
+
+.detailContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap:1.5rem;
+    height: 100%;
+}
+
+.priceContainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: end;
+    padding: .5rem;
+}
+
+.payContainer{
+    margin-top: 2.25rem;
+    width:22rem;
+    height:15rem;
+    background-color: white;
+    align-self: flex-start;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:1rem;
+}

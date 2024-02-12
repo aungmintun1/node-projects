@@ -1,9 +1,6 @@
 const express = require('express');
 const shirtController = require('./../controllers/shirtController');
 
-
-
-
 const router = express.Router();
 
 router
@@ -12,7 +9,7 @@ router
 
 router
 .route('/postShirt')
-.post(shirtController.createShirt)
+.post(shirtController.uploadShirtPhoto,shirtController.resizeUserPhoto,shirtController.createShirt)
 
 router
 .route('/deleteShirt/:id')
