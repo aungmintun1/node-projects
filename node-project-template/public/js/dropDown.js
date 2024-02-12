@@ -11,21 +11,35 @@ dropdownButtons.forEach(function(button, index) {
 button.parentNode.appendChild(dropdownContent);
 
   
-  for (let i = 1; i <= 20; i++) {
+  for (let i = 1; i <= 5; i++) {
     const div = document.createElement('div');
     div.textContent = i;
 
     div.onclick = function() {
 
-      const Itembox = this.closest('.box');
-      const addToCartButton = Itembox.querySelector('.add_btn');
-      const editButton = Itembox.querySelector('.edit_btn');
+      const shirtBox = this.closest('.shirtBox');
+      const checkoutBox = this.closest('.cart_btn_container');
 
-      if(addToCartButton)
-      addToCartButton.setAttribute('data-quantity', this.textContent);
-
-      if(editButton)
-      editButton.setAttribute('data-quantity', this.textContent);
+      if (shirtBox) {
+        const addToCartButton = shirtBox.querySelector('.add_btn');
+        if (addToCartButton) {
+          addToCartButton.setAttribute('data-quantity', this.textContent);
+        }
+      }
+      // If 'checkoutBox' is found, work with 'edit_btn'
+      else if (checkoutBox) {
+        const editButton = checkoutBox.querySelector('.edit_btn');
+        if (editButton) {
+          editButton.setAttribute('data-quantity', this.textContent);
+        }
+      }
+    
+      // const addToCartButton = Itembox.querySelector('.add_btn');
+      // const editButton = Itembox.querySelector('.edit_btn');
+      // if(addToCartButton)
+      // addToCartButton.setAttribute('data-quantity', this.textContent);
+      // if(editButton)
+      // editButton.setAttribute('data-quantity', this.textContent);
 
       button.textContent = `Quantity: ${this.textContent}`;
       dropdownContent.style.display = 'none';
