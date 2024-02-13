@@ -4,7 +4,20 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/appError')
 
 exports.getShirt = catchAsync(async (req, res, next) => {
-    const shirts = await Shirt.find();
+    let queryObj={...req.query};
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach(el => delete queryObj [el]);
+
+    let queryStr= JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+
+    let query = Shirt.find(JSON.parse(queryStr));
+
+    if (req.query.sort){
+      query = query.sort(req.query.sort)
+    }
+
+    const shirts = await query
     const user = await User.findById(req.user.id);
   
     res.status(200).render('base', {
@@ -49,8 +62,9 @@ exports.getShirt = catchAsync(async (req, res, next) => {
     }
 
     const totalQuantity = await loggedUser.getTotalQuantity(); 
-    const user = { ...loggedUser.toObject(), totalQuantity };
-    
+    const totalPrice = await loggedUser.getTotalPrice();
+    const user = { ...loggedUser.toObject(), totalQuantity,totalPrice };
+    console.log(user);
     res.status(200).render('cart', {
       user
     });

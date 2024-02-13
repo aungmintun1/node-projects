@@ -1,15 +1,18 @@
 //  eslint-disable 
+//import js files, use function in delegation
 import '@babel/polyfill';
 import {login} from './login';
 import {addCart} from './addCart';
 import {deleteItem} from './delete';
 import {editItem} from './edit';
 
+
 //components and or buttons containing eventlistener
 const loginForm = document.querySelector('.form');
 const buttons = document.querySelectorAll('.add_btn');
 const deleteBtns = document.querySelectorAll('.delete');
 const editBtns = document.querySelectorAll('.edit_btn');
+const filterOptions = document.querySelectorAll('.filter-dropdown-content div');
 
 //delegation
 
@@ -30,8 +33,9 @@ document.querySelector('.form').addEventListener('submit', e => {
 
       const shirt = button.getAttribute('data-shirt-id');
       const quantity = Number(button.getAttribute('data-quantity')); 
+      const size = button.getAttribute('data-size');
 
-      addCart(shirt,quantity);
+      addCart(shirt,quantity,size);
     });
   });
 
@@ -56,5 +60,17 @@ document.querySelector('.form').addEventListener('submit', e => {
       const quantity = Number(button.getAttribute('data-quantity')); 
 
       editItem(shirt,quantity);
+    });
+  });
+
+  if(filterOptions)
+  filterOptions.forEach(function(option,index){
+    option.addEventListener('click', function() {
+      const query = option.getAttribute('data-string');
+      const sort = '?sort=' + query;
+      
+      window.setTimeout(() => {
+        location.assign(`/${sort}`);
+      }, 1000);
     });
   });

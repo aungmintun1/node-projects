@@ -28,6 +28,15 @@ html
    block content
     h1 T-Shirt Store
     h2 logged in as: #{user.name}
+    div.filterContainer
+     div.filter-dropdown
+      button.filterBtn Featured
+      div.filter-dropdown-content
+       div(data-string='featured') Featured
+       div(data-string='name') Alphabetically,A-Z
+       div(data-string='-name') Alphabetically,Z-A
+       div(data-string='price') Price,low to high
+       div(data-string='-price') Price,high to low
     
     section.shop
      div.cart_container
@@ -38,14 +47,10 @@ html
          p #{shirt.name}
          p from $#{shirt.price}
  
-
-      //-  button.add_btn(data-shirt-id=shirt.id , data-quantity=1) add to cart
-      //-  div.dropdown
-      //-   button#dropbtn.dropbtn Quantity: 1
-        
-
+      
    script(src='/js/bundle.js')
    script(src='/js/dropDown.js')
+   script(src='/js/filterBtn.js')
    
      
   
