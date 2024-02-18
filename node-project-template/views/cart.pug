@@ -11,10 +11,10 @@ block content
    div.checkout_container
     each item in user.cart
      div.checkoutBox
-      img.cartImage(src=`/img/shirts/blueShirt.webp` alt='photo of shirt')
+      img.cartImage(src=`/img/shirts/${item.shirt.photo}` alt='photo of shirt')
       .detailContainer
-       h2 shirt name : #{item.shirt.name}
-       p Shirt size: #{item.size}
+       h2 name : #{item.shirt.name}
+       p size: #{item.size}
        .cart_btn_container
         div.dropdown
          button#dropbtn.dropbtn Quantity: #{item.quantity}
@@ -24,5 +24,5 @@ block content
        h2 $#{item.shirt.price}
   .payContainer     
    p SubTotal (#{user.totalQuantity} items): $#{user.totalPrice}
-   button.checkoutBtn proceed to checkout
-        
+   button#book-shirt.checkoutBtn proceed to checkout
+     

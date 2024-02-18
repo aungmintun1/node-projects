@@ -5,7 +5,7 @@ import {login} from './login';
 import {addCart} from './addCart';
 import {deleteItem} from './delete';
 import {editItem} from './edit';
-
+import {bookShirt} from './stripe';
 
 //components and or buttons containing eventlistener
 const loginForm = document.querySelector('.form');
@@ -13,6 +13,7 @@ const buttons = document.querySelectorAll('.add_btn');
 const deleteBtns = document.querySelectorAll('.delete');
 const editBtns = document.querySelectorAll('.edit_btn');
 const filterOptions = document.querySelectorAll('.filter-dropdown-content div');
+const bookBtn = document.getElementById('book-shirt');
 
 //delegation
 
@@ -73,4 +74,15 @@ document.querySelector('.form').addEventListener('submit', e => {
         location.assign(`/${sort}`);
       }, 1000);
     });
+  });
+
+  
+
+if (bookBtn)
+  bookBtn.addEventListener('click', e => {
+
+    bookShirt();
+    // this event listener is for buying
+    //in this case, we get all the data through req.user, this is from the auth.protect route
+    // when clicked it redirects to the checkout page through the function in stripe.js
   });
