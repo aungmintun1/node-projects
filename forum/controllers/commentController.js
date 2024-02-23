@@ -12,7 +12,7 @@ exports.getAllComments= catchAsync(async(req,res,next) => {
 });
 
 exports.getComment = catchAsync(async (req, res, next) => {
-    let comment = await Comment.findById(req.params.id).populate({path:'thread'}).populate({path:'repliedTo'}).populate({path:'replies'})
+    let comment = await Comment.findById(req.params.id).populate({path:'thread'}).populate({path:'repliedTo'}).populate({path:'replies' ,populate: {path:'replies'}})
     
     res.status(200).json({
       status: 'success',
