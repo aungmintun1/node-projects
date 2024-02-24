@@ -5,7 +5,9 @@ html
       meta(charset='UTF-8')
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
-      link(rel='stylesheet' href='/css/style.css')
+      link(rel='stylesheet' href='/css/header.css')
+      link(rel='stylesheet' href='/css/base.css')
+      link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' rel='stylesheet')
       title Thread
   
   body
@@ -15,15 +17,39 @@ html
       li
         a(href="#home") profile
       li
-        a(href=`/cart`) home
+        a(href='/') home
       li
-        a(href="#contact") login
+        a(href="/login") logout
+   
+   h1.base-header Threads 
+   h3 logged in as: #{user.name}
+   section.threads
+    .thread-container
+     each thread in threads 
+      a.thread-link(href=`/thread/${thread.id}`)
+       .thread-box
+        .thread-likes
+         i.fa-regular.fa-thumbs-up.like-icon
+         div= thread.totalLikes
+        .thread-content  
+         p.thread-username Posted by: Randy aberback
+         h2.question= thread.question
+         .comment-number-container 
+          i.fa-regular.fa-message
+          p #{thread.totalComments} comments
+    
+    .create-box
+     h2 Computer Science Club 
+     p Created at 2/22/24
+     p 32 users 
+     textarea#question.comment-input(name='comment' placeholder='Write your post here...')
+     button.create-post-btn.reply-icon create post
+  
+    
+   
+   script(src='/js/bundle.js')
+   script(src='/js/replyButton.js')     
 
-   h1 threads 
-
-   div.container
-    each thread in threads 
-     h2= thread.question
   
 
 //-    div.cart_container

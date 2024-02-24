@@ -18,6 +18,8 @@ repliedTo: {
 }
 
 },
+
+// total # of likes
 {
   toJSON: { virtuals: true },
   toObject: { virtuals: true }
@@ -29,6 +31,11 @@ commentSchema.virtual('replies', {
   localField: '_id'
 });
 
+commentSchema.virtual('commentLikes', {
+  ref: 'LikeComment',
+  foreignField: 'comment',
+  localField: '_id'
+});
 
 const Comment = mongoose.model('Comment', commentSchema);
 module.exports = Comment;

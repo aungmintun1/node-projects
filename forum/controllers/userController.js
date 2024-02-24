@@ -22,3 +22,14 @@ exports.signup =  catchAsync(async (req,res,next) => {
     });
 
 });
+
+exports.getUser = catchAsync(async (req, res, next) => {
+  let currentUser = await User.findById(req.params.id);
+  
+  res.status(200).json({
+    status: 'success',
+    data: {
+      currentUser
+    }
+  });
+});

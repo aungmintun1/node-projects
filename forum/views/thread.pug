@@ -1,13 +1,29 @@
 mixin Comment(object)
  .box
-  h2= object.text
+  .user-info
+   img(class="user-profile-picture" src="../img/default.jpg", alt="user profile picture")
+   p.username username
+   
+  .comment-box
+   p.comment-box-text= object.text
+   .icon-box
+    i.fa-regular.fa-thumbs-up.like-icon
+    span= (object.totalLikes || 0) < 1 ? 0 : object.totalLikes
+    .reply-icon
+     i.fa-regular.fa-message
+     span Reply
+   .textarea-box 
+    textarea.reply-input(name='comment' placeholder='Write your comment here...')
+    button.submit-reply(type='submit' data-threadId=thread.id data-commentId=object.id) Reply
+     
+   if object.replies
+    .reply
+     each reply in object.replies
+      +Comment(reply)
+   else 
+    .replyList
 
-  if object.replies
-   .reply
-    each reply in object.replies
-     +Comment(reply)
-  else 
-   .replyList
+//-if a comment has a replies list, then we will put the reply object, each into the mixin, a reply list
 
 
 doctype html
@@ -18,6 +34,8 @@ html
       meta(name='viewport' content='width=device-width, initial-scale=1.0')
       link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
       link(rel='stylesheet' href='/css/thread.css')
+      link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css' rel='stylesheet')
+
       title Thread
    
   body
@@ -27,27 +45,39 @@ html
     nav
      ul
       li
-        a(href="#home") profile
+        a(href="/") profile
       li
-        a(href=`/cart`) home
+        a(href='/') home
       li
-        a(href="#contact") login
-
-   h1= thread.question 
+        a(href="/login") login
+        
+   h3 logged in as: #{user.name}
+   div.thread_container 
+    h1= thread.question 
+    p so i am an aspring dev looking to get into the industry i am familair with html, CSS, javascript, and frontend frameworks like react, angular. i am   also familiar with using abanckend for my website as well as using frameworks like node, express.js, mongoDB.
+    .thread_icon_container
+     button(data-threadId=thread.id).like-thread
+      i.fa-regular.fa-thumbs-up.like-icon
+      span likes: #{totalThreadLikes}
+     i.fa-regular.fa-message
+     span comments:#{totalComments}
 
    section.comment 
     div.comment_container
+     .individual-comment
+      textarea#comment.individual-comment-input(name='comment' placeholder='Write your comment here...')
+      button.submit-button(type='submit' data-threadId=thread.id) Comment
     
      each comment in comments 
       if !comment.repliedTo
        +Comment(comment)
+   
+   script(src='/js/bundle.js')
+   script(src='/js/replyButton.js') 
 
-    //- div.comment_container
-    //-  each comment in comments  
-    //-   div.box
-    //-    h2= comment.text
-    //-     each reply in comment.replies  
-    //-      div.reply
-    //-       h4= reply.text
-           
-           
+//-  we iterate through each comment in the threads.comments
+//- considering that there are only comment objects,to differentiate between a comment and a reply is, if it has a repliedTo field that is true
+//- if a comment doesn't have a repliedTo field, then it is a individual comment
+//- if a comment does have a repliedTo field, then it is a reply comment
+//- the if statment is to prevent reply comments being duplicated as indvidual comments
+

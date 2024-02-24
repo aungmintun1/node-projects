@@ -1,6 +1,6 @@
 
 .header{
-    padding: 2rem;
+    padding: 1rem;
     background-color: gray;
   }
   
@@ -21,32 +21,180 @@
   h1,h2,h3,h4{
     text-align: center;
   }
+  body{
+    background-color: #f2f8fc;
+
+  }
 
 .comment{
     display: flex;
     justify-content: center;
+   
+
+   }
+
+   .thread_container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+    gap:1rem;
+    margin:4rem auto;
+    padding:1rem;
+
+    width:550px;
+    height:300px;
+    border-radius: 20px;
+
+    position: relative;
+   }
+   .thread_container p{
+    line-height: 1.5;
+    width:50ch;
+   }
+
+   .thread_icon_container{
+    display: flex;
+    align-items: center;
+    gap:.5rem;
+    position: absolute;
+
+    right:15px;
+    bottom:25px;
+   }
+   .like-thread{
+    border:none;
+    background-color: transparent;
+    transition: all 0.3s;
+   }
+   .like-thread:hover{
+    background-color: #acd1f8;
+   }
+   .like-thread i{
+    padding-right: .25rem;
    }
     .comment_container{
-      border: solid black 2px;
-      width: 75%;
+      margin:1.5rem;
+      border-radius: 20px;
+      
+      width: 50%;
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding:2rem;
+
+      background-color: white;
     }
   
     .box{
-      border: solid lightblue 2px;
+      
       display: flex;
       flex-direction: column;
-      width: 300px;
+      width: 400px;
+      position: relative;
+     
+   
     }
     
     .reply {
-      
+  
         margin-left: 10px;
-        border: solid lightblue 2px;
         display: flex;
         flex-direction: column;
-        width: 300px;
+        width: 200px;
     }
+
+
+
+  .user-info{
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 0;
     
+  }  
+  .user-profile-picture{
+    width:2rem;
+    height:2rem;
+    border-radius: 50%;
+  }
+  .username,.comment-box-text{
+    padding:0;
+    margin:0;
+  }
+
+  .comment-box{
+    margin-top: .25rem;
+    border-left: solid lightblue 2px;
+    margin-left:1rem;
+    
+  }
+  .comment-box-text{
+    margin-left: 1.5rem;
+  }
+  .icon-box{
+    display: flex;
+    gap:.5rem;
+    margin: 1rem 0 1rem 1.5rem;
+  }
+ 
+  .like-icon:hover{
+    color:blue;
+  }
+
+  .reply-icon{
+    display: flex;
+    gap:.5rem;
+    transition: all 0.2s;
+  }
+  .reply-icon:hover{
+    background-color: lightgray;
+  }
+  .fa-regular, .fa-message{
+    padding:0;
+    margin:0;
+  }
+
+  .textarea-box{
+    display:none;
+  }
+
+  .comment-input,.reply-input{
+    width: 100%;
+    padding: 10px;
+    margin-left:1rem;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; 
+  }
+  .individual-comment-input{
+    width: 100%;
+    height: 5rem;
+    margin-left:1rem;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; 
+  }
+ 
+
+  .submit-button,.submit-reply {
+    padding: 6px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    margin-left:1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+
+  .submit-reply:hover {
+    background-color: #0056b3;
+  }
