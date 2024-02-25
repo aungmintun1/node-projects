@@ -4,8 +4,17 @@ const threadSchema = new mongoose.Schema ({
 
 question: {
     type: String,
-    required: [true, 'enter a name'],
+    required: [true, 'enter a question'],
 },
+
+description: {
+  type: String,
+  required: [true, 'enter a description'],
+},
+
+username:{
+  type: String,
+}
 
 },
 

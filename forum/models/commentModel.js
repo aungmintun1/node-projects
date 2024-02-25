@@ -6,6 +6,10 @@ text: {
     type: String
 },
 
+username:{
+  type: String
+},
+
 thread: {
     type: mongoose.Schema.ObjectId,
     ref: 'Thread',

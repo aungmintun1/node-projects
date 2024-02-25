@@ -2,7 +2,7 @@ mixin Comment(object)
  .box
   .user-info
    img(class="user-profile-picture" src="../img/default.jpg", alt="user profile picture")
-   p.username username
+   p.username= object.username
    
   .comment-box
    p.comment-box-text= object.text
@@ -52,15 +52,18 @@ html
         a(href="/login") login
         
    h3 logged in as: #{user.name}
+
    div.thread_container 
     h1= thread.question 
-    p so i am an aspring dev looking to get into the industry i am familair with html, CSS, javascript, and frontend frameworks like react, angular. i am   also familiar with using abanckend for my website as well as using frameworks like node, express.js, mongoDB.
+    p= thread.description
     .thread_icon_container
      button(data-threadId=thread.id).like-thread
       i.fa-regular.fa-thumbs-up.like-icon
       span likes: #{totalThreadLikes}
      i.fa-regular.fa-message
      span comments:#{totalComments}
+    h3.thread-username By: #{thread.username}
+    
 
    section.comment 
     div.comment_container

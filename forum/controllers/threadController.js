@@ -22,6 +22,8 @@ exports.getAllThreads = catchAsync(async(req,res,next) => {
 });
 
 exports.createThread =  catchAsync(async (req,res,next) => {
+    if(!req.body.username) req.body.username= req.user.name;
+    
     const newThread = await Thread.create(req.body);
 
     res.status(201).json({

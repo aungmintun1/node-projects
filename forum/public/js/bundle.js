@@ -12022,7 +12022,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; } //  eslint-disable 
 var createThread = exports.createThread = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(question) {
+  var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(question, description) {
     var res;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
@@ -12033,7 +12033,8 @@ var createThread = exports.createThread = /*#__PURE__*/function () {
             method: 'POST',
             url: 'http://localhost:8000/threads/createThread',
             data: {
-              question: question
+              question: question,
+              description: description
             }
           });
         case 3:
@@ -12050,7 +12051,7 @@ var createThread = exports.createThread = /*#__PURE__*/function () {
       }
     }, _callee, null, [[0, 6]]);
   }));
-  return function createThread(_x) {
+  return function createThread(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
@@ -12347,7 +12348,8 @@ if (loginForm) document.querySelector('.form').addEventListener('submit', functi
 if (createThreadBtn) createThreadBtn.addEventListener('click', function (e) {
   e.preventDefault();
   var question = document.getElementById('question').value;
-  (0, _createThread.createThread)(question);
+  var description = document.getElementById('description').value;
+  (0, _createThread.createThread)(question, description);
 });
 if (createCommentBtn) createCommentBtn.addEventListener('click', function (e) {
   e.preventDefault();
@@ -12398,7 +12400,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61153" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57093" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

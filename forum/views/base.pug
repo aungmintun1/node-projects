@@ -23,6 +23,7 @@ html
    
    h1.base-header Threads 
    h3 logged in as: #{user.name}
+
    section.threads
     .thread-container
      each thread in threads 
@@ -32,7 +33,7 @@ html
          i.fa-regular.fa-thumbs-up.like-icon
          div= thread.totalLikes
         .thread-content  
-         p.thread-username Posted by: Randy aberback
+         p.thread-username Posted by: #{thread.username}
          h2.question= thread.question
          .comment-number-container 
           i.fa-regular.fa-message
@@ -42,7 +43,8 @@ html
      h2 Computer Science Club 
      p Created at 2/22/24
      p 32 users 
-     textarea#question.comment-input(name='comment' placeholder='Write your post here...')
+     textarea#question.comment-input(name='comment' placeholder='Write your question here...')
+     textarea#description.comment-input(name='comment' placeholder='Write your description here...')
      button.create-post-btn.reply-icon create post
   
     

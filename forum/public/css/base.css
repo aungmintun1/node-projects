@@ -48,7 +48,8 @@ font-family: inherit;
     align-items: center;
     gap:2rem;
     width:300px;
-    height: 400px;
+    height:450px;
+   
     padding:1rem;
 }
 .create-box p{
@@ -69,12 +70,17 @@ font-family: inherit;
 .comment-input{
     width: 100%;
     padding: 10px;
-    height: 6rem;
+    height: 3rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box; 
     background-color: white;
+    resize:none;
 }
+
+#description {
+    height: 5rem;
+  }
 
 
 .threads{
